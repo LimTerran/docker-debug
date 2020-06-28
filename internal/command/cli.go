@@ -103,7 +103,7 @@ func WithConfig(config *config.Config) DebugCliOption {
 }
 
 // WithClientConfig set docker config
-func WithClientConfig(dockerConfig config.DockerConfig) DebugCliOption {
+func WithClientConfig(dockerConfig *config.DockerConfig) DebugCliOption {
 	return func(cli *DebugCli) error {
 		if cli.client != nil {
 			err := cli.client.Close()
@@ -121,7 +121,7 @@ func WithClientConfig(dockerConfig config.DockerConfig) DebugCliOption {
 		}
 		clientOpts := []client.Opt{
 			client.WithHost(host),
-			client.WithVersion(""),
+			client.WithVersion(dockerConfig.Version),
 		}
 		if dockerConfig.TLS {
 			clientOpts = append(clientOpts, client.WithTLSClientConfig(
